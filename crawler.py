@@ -9,14 +9,17 @@ cookies = {}
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((target_host, target_port))
 
+# Create a new socket
+
 
 def new_socket():
     global client
-    print("New Socket")
     client.close()
     new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     new_socket.connect((target_host, target_port))
     client = new_socket
+
+# Receive response from socket
 
 
 def recv(cli):
@@ -29,6 +32,8 @@ def recv(cli):
     if r'Connection: keep-alive' not in str(result):
         new_socket()
     return result.decode('utf-8')
+
+# handle http based on status code
 
 
 def handle_http(http, url):
@@ -67,6 +72,8 @@ def handle_http(http, url):
     elif status == '500':
         http = get_request(url)
         return handle_http(http, url)
+
+# Send get request to url
 
 
 def get_request(url):
